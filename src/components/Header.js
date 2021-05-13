@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <div>
       <nav className="py-3 border-bottom navbar navbar-expand navbar-light">
-        <a data-testid="logo" href="/#" className="navbar-brand">
+        <a data-testid="logo" href="/#" aria-label="link" className="navbar-brand">
           <img src="logo192.png" alt="" width="40px" />
         </a>
 
@@ -17,16 +17,16 @@ const Header = () => {
         </form>
 
         <div data-testid="menu" className="ml-auto text-uppercase navbar-nav">
-          <a href="home" className="nav-link">
+          <a href="home" aria-label="link" className="nav-link">
             Become a Host
           </a>
-          <a href="#link" className="nav-link">
+          <a href="#link" aria-label="link" className="nav-link">
             Help
           </a>
-          <a href="#link" className="nav-link">
+          <a href="#link" aria-label="link" className="nav-link">
             Sign Up
           </a>
-          <a href="#link" className="nav-link">
+          <a href="#link" aria-label="link" className="nav-link">
             Login
           </a>
         </div>
