@@ -26,6 +26,16 @@ const Homes = () => {
             </div>
             <div data-testid="home-location">{home.location}</div>
             <div data-testid="home-price">${home.price}/night</div>
+
+            <div className="d-flex justify-content-end">
+              <button
+                data-testid="home-booking"
+                type="button"
+                className="btn btn-primary"
+              >
+                Book
+              </button>
+            </div>
           </div>
         </div>
       </div>
