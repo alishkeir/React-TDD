@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import APIClient from "../services/APIClient";
 import bookingDialogService from "../services/bookingDialogService";
 import HomeBooking from "./HomeBooking";
+import Notification from "./Notification";
 
 const Homes = () => {
   const [homesState, setHomesState] = useState([]);
@@ -70,6 +71,7 @@ const Homes = () => {
           <HomeBooking home={dialogState.home} />
         </DialogContent>
       </Dialog>
+      <Notification/>
     </div>
   );
 };

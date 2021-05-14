@@ -1,7 +1,9 @@
-import { fireEvent, getByTestId, render } from "@testing-library/react";
+import { act, fireEvent, getByTestId, render } from "@testing-library/react";
 import React from "react";
 import HomeBooking from "./HomeBooking";
 import APIClient from "../services/APIClient";
+import NotificationService from "../services/NotificationService";
+import bookingDialogService from "../services/bookingDialogService";
 
 const mockedHome = {
   title: "Home Test 1",
@@ -40,7 +42,6 @@ it("should show check-out date field", () => {
 });
 
 it("should calculate total", () => {
-
   //~ enter check-in date: 2020-12-04
   fireEvent.change(getByTestId(container, "check-in"), {
     target: { value: "2020-12-04" },
@@ -54,9 +55,9 @@ it("should calculate total", () => {
   expect(getByTestId(container, "total").textContent).toBe("$375");
 });
 
-it("should book after clicking", () => { 
+it("should book after clicking", () => {
   jest.spyOn(APIClient, "bookHomes").mockImplementation(() => {
-    return Promise.resolve();
+    return Promise.resolve({ message: 'Mocked home booked!' });
   });
 
   fireEvent.change(getByTestId(container, "check-in"), {
@@ -67,13 +68,40 @@ it("should book after clicking", () => {
     target: { value: "2020-12-07" },
   });
 
-  getByTestId(container, "book-btn").click()
+  getByTestId(container, "book-btn").click();
+
+  expect(APIClient.bookHomes).toHaveBeenCalledWith(
+    mockedHome,
+    "2020-12-04",
+    "2020-12-07"
+  );
+});
+
+it("should close dialog and show toast notification", async () => {
+  jest
+    .spyOn(APIClient, "bookHomes")
+    .mockImplementation(() => Promise.resolve({ message:"Mocked Home Booked !!"}));
+
+  jest.spyOn(bookingDialogService, "close").mockImplementation(() => {});
+
+  jest.spyOn(NotificationService, "open").mockImplementation(() => {});
+
+  fireEvent.change(getByTestId(container, "check-in"), {
+    target: { value: "2020-12-04" },
+  });
+
+  fireEvent.change(getByTestId(container, "check-out"), {
+    target: { value: "2020-12-07" },
+  });
+
+  getByTestId(container, "book-btn").click();
+  await act(async () => {});
+  expect(bookingDialogService.close).toHaveBeenCalled();
 
 
-  expect(APIClient.bookHomes).toHaveBeenCalledWith(mockedHome,"2020-12-04","2020-12-07" )
+  expect(NotificationService.open).toHaveBeenCalledWith('Mocked Home Booked !!');
 
 });
-//~ should close dialog and show toast notification
 
 it("should show empty when no home provided", () => {
   container = render(<HomeBooking home={null} />).container;

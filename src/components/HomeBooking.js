@@ -1,6 +1,8 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import APIClient from "../services/APIClient";
+import bookingDialogService from "../services/bookingDialogService";
+import NotificationService from "../services/NotificationService";
 
 const HomeBooking = (props) => {
   const [checkInState, setCheckInState] = useState();
@@ -20,8 +22,11 @@ const HomeBooking = (props) => {
   }, [checkInState, checkOutState, props]);
 
   const handleBooking = () => {
-    APIClient.bookHomes(props.home, checkInState, checkOutState).then((res) =>
-      console.log(res)
+    APIClient.bookHomes(props.home, checkInState, checkOutState).then(
+      (res) => {
+        bookingDialogService.close();
+        NotificationService.open(res.message);
+      }
     );
   };
 
@@ -45,7 +50,7 @@ const HomeBooking = (props) => {
         onChange={(e) => setCheckOutState(e.target.value)}
       />
       <div data-testid="total">${totalPriceState}</div>
-      <button type="" data-testid="book-btn" onClick={handleBooking}>
+      <button className="btn btn-primary"data-testid="book-btn" onClick={handleBooking}>
         Book
       </button>
     </>
