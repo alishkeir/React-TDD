@@ -55,6 +55,25 @@ it("should calculate total", () => {
   expect(getByTestId(container, "total").textContent).toBe("Total: $375");
 });
 
+
+
+
+it("should show 00 for invalid dates", () => {
+  //~ enter check-in date: 2020-12-04
+  fireEvent.change(getByTestId(container, "check-in"), {
+    target: { value: "2020-12-04" },
+  });
+
+  //~ enter check-out date: 2020-12-07
+  fireEvent.change(getByTestId(container, "check-out"), {
+    target: { value: "2020-12-02" },
+  });
+
+  expect(getByTestId(container, "total").textContent).toBe("Total: $00");
+});
+
+
+
 it("should book after clicking", () => {
   jest.spyOn(APIClient, "bookHomes").mockImplementation(() => {
     return Promise.resolve({ message: 'Mocked home booked!' });

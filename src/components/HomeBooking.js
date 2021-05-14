@@ -16,9 +16,7 @@ const HomeBooking = (props) => {
     const nights = checkOutDate.diff(checkInDate, "days");
     const total = nights * price;
     setTotalPriceState(total);
-    Number.isInteger(total)
-      ? setTotalPriceState(total)
-      : setTotalPriceState("00");
+    total > 0 ? setTotalPriceState(total) : setTotalPriceState("00");
   }, [checkInState, checkOutState, props]);
 
   const handleBooking = () => {
