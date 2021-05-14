@@ -1,5 +1,6 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
+import APIClient from "../services/APIClient";
 
 const HomeBooking = (props) => {
   const [checkInState, setCheckInState] = useState();
@@ -16,8 +17,13 @@ const HomeBooking = (props) => {
     Number.isInteger(total)
       ? setTotalPriceState(total)
       : setTotalPriceState("00");
-
   }, [checkInState, checkOutState, props]);
+
+  const handleBooking = () => {
+    APIClient.bookHomes(props.home, checkInState, checkOutState).then((res) =>
+      console.log(res)
+    );
+  };
 
   if (!props.home) {
     return <div data-testid="empty"></div>;
@@ -39,6 +45,9 @@ const HomeBooking = (props) => {
         onChange={(e) => setCheckOutState(e.target.value)}
       />
       <div data-testid="total">${totalPriceState}</div>
+      <button type="" data-testid="book-btn" onClick={handleBooking}>
+        Book
+      </button>
     </>
   );
 };
