@@ -22,6 +22,7 @@ const Notification = () => {
       onClose={()=>NotificationService.close()  }
       message={notificationState.message}
       autoHideDuration={ 3000 }
+      style={{textAlign:'center',width:'100%',margin:'auto'}}
     />
   )
 }

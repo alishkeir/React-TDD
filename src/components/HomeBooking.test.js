@@ -30,7 +30,7 @@ it("should show title", () => {
 });
 
 it("should show price", () => {
-  expect(getByTestId(container, "price").textContent).toBe("125");
+  expect(getByTestId(container, "price").textContent).toBe("$125 per night");
 });
 
 it("should show check-in date field", () => {
@@ -52,7 +52,7 @@ it("should calculate total", () => {
     target: { value: "2020-12-07" },
   });
 
-  expect(getByTestId(container, "total").textContent).toBe("$375");
+  expect(getByTestId(container, "total").textContent).toBe("Total: $375");
 });
 
 it("should book after clicking", () => {
