@@ -1,14 +1,23 @@
+import { Dialog, DialogContent } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import APIClient from "../services/APIClient";
 import bookingDialogService from "../services/bookingDialogService";
 
 const Homes = () => {
   const [homesState, setHomesState] = useState([]);
+  const [dialogState, setDialogState] = useState({ open: false });
 
   useEffect(() => {
     const homesDataPromise = APIClient.getHomes();
 
     homesDataPromise.then((homesData) => setHomesState(homesData));
+  }, []);
+
+  useEffect(() => {
+    const subscription = bookingDialogService.events$.subscribe((state) =>
+      setDialogState(state)
+    );
+    return () => subscription.unsubscribe();
   }, []);
 
   let homes = homesState.map((home, index) => {
@@ -50,6 +59,14 @@ const Homes = () => {
     <div className="container m-2 ">
       <h1>Homes</h1>
       <div className="row">{homes}</div>
+      <Dialog
+        open={dialogState.open}
+        onClose={() => bookingDialogService.close()}
+      >
+        <DialogContent>
+          {dialogState.home ? dialogState.home.title : null}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
