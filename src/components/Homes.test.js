@@ -6,6 +6,7 @@ import {
 } from "@testing-library/react";
 import React from "react";
 import APIClient from "../services/APIClient";
+import bookingDialogService from "../services/bookingDialogService";
 import Homes from "./Homes";
 
 //~ Create container to fill in tests
@@ -76,8 +77,25 @@ it("should show home price", () => {
 });
 
 it("should show home booking button", () => {
-  const homeBooking = getAllByTestId(container, "home-booking");
+  const homeBooking = getAllByTestId(container, "home-booking-btn");
 
   //~ Component should contain booking button
   expect(homeBooking[0]).toBeTruthy();
+});
+
+it("should show home booking dialog ", () => {
+  jest.spyOn(bookingDialogService, "open").mockImplementation(() => {});
+
+  const homeBookingBtn = getAllByTestId(container, "home-booking-btn");
+
+  //~  booking button should show a dialog on click
+  homeBookingBtn[0].click();
+
+  //~ make sure that open dialog method was called
+  expect(bookingDialogService.open).toHaveBeenCalledWith({
+    title: "Home Test 1",
+    image: "CRHotel.jpg",
+    location: "Test Location 1",
+    price: "1",
+  });
 });

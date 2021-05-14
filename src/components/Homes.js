@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import APIClient from "../services/APIClient";
+import bookingDialogService from "../services/bookingDialogService";
 
 const Homes = () => {
   const [homesState, setHomesState] = useState([]);
@@ -29,9 +30,12 @@ const Homes = () => {
 
             <div className="d-flex justify-content-end">
               <button
-                data-testid="home-booking"
+                data-testid="home-booking-btn"
                 type="button"
                 className="btn btn-primary"
+                onClick={() => {
+                  bookingDialogService.open(home);
+                }}
               >
                 Book
               </button>
