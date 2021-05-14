@@ -1,7 +1,6 @@
 import { getByTestId, render } from "@testing-library/react";
 import React from "react";
 import Header from "./Header";
-render;
 
 
 //~ Create container to fill in tests
