@@ -6,7 +6,7 @@ const mockedHome = {
   title: "Home Test 1",
   image: "CRHotel.jpg",
   location: "Test Location 1",
-  price: "1",
+  price: "125",
 };
 
 //~ Create container to fill in tests
@@ -19,16 +19,31 @@ beforeEach(() => {
 
 //~checking if components is rendering properly
 it("foo", () => {
-  console.log(container.innerHTML);
   expect(true).toBeTruthy();
 });
 
+it("should show title", () => {
+  expect(getByTestId(container, "title").textContent).toBe("Home Test 1");
+});
 
+it("should show price", () => {
+  expect(getByTestId(container, "price").textContent).toBe("125");
+});
 
-//~ should show title
-//~ should show price
-//~ should show check-in date field
-//~ should show check-out date field
-//~ should calculate total 
+it("should show check-in date field", () => {
+  expect(getByTestId(container, "check-in")).toBeTruthy();
+});
+
+it("should show check-out date field", () => {
+  expect(getByTestId(container, "check-out")).toBeTruthy();
+});
+
+//~ should calculate total
 //~ should book after clicking
 //~ should close dialog and show toast notification
+
+it("should show empty when no home provided", () => {
+  container = render(<HomeBooking home={null} />).container;
+
+  expect(getByTestId(container, "empty")).toBeTruthy();
+});
