@@ -1,4 +1,4 @@
-import { getByTestId, render } from "@testing-library/react";
+import { fireEvent, getByTestId, render } from "@testing-library/react";
 import React from "react";
 import HomeBooking from "./HomeBooking";
 
@@ -38,7 +38,20 @@ it("should show check-out date field", () => {
   expect(getByTestId(container, "check-out")).toBeTruthy();
 });
 
-//~ should calculate total
+it("should calculate total", () => {
+  //~ enter check-in date: 2020-12-04
+  fireEvent.change(getByTestId(container, "check-in"), {
+    target: { value: "2020-12-04" },
+  });
+
+  //~ enter check-out date: 2020-12-07
+  fireEvent.change(getByTestId(container, "check-out"), {
+    target: { value: "2020-12-07" },
+  });
+
+  expect(getByTestId(container, "total").textContent).toBe("$375");
+});
+
 //~ should book after clicking
 //~ should close dialog and show toast notification
 
